@@ -2888,7 +2888,7 @@ function loadData() {
         result.gyms.forEach(function(item) {
           gyms.push(item);
           if (settings.showUnknownPois == false) {
-            let lastUpdate = new Date(item.last_seen*1000).toUTCString().slice(4,-4);
+            let lastUpdate = new Date(item.updated*1000).toUTCString().slice(4,-4);
             let radius = (6/8) + ((7/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let weight = (1/8) + ((1/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             if(item.ex == 1){
@@ -2918,7 +2918,7 @@ function loadData() {
             marker.bindPopup("<span>ID: " + item.id + "<br>" + item.name + "<br>" + subs.lastUpdate + lastUpdate + "</span>").addTo(gymLayer);
             }
           } else if (settings.showUnknownPois == true && item.name == null) {
-            let lastUpdate = new Date(item.last_seen*1000).toUTCString().slice(4,-4);
+            let lastUpdate = new Date(item.updated*1000).toUTCString().slice(4,-4);
             let radius = (6/8) + ((7/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let weight = (1/8) + ((1/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             if(item.ex == 1){
@@ -2955,7 +2955,7 @@ function loadData() {
           if (item.deleted != 1) {
           if (settings.showUnknownPois == false) {
             pokestops.push(item);
-            let lastUpdate = new Date(item.last_seen*1000).toUTCString().slice(4,-4);
+            let lastUpdate = new Date(item.updated*1000).toUTCString().slice(4,-4);
             let radius = (6/8) + ((6/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let weight = (1/8) + ((1/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let marker = L.circleMarker([item.lat, item.lng], {
@@ -2971,7 +2971,7 @@ function loadData() {
             marker.bindPopup("<span>ID: " + item.id + "<br>" + item.name + "<br>" + subs.lastUpdate + lastUpdate + "</span>").addTo(pokestopLayer);
           } else if (settings.showUnknownPois == true && item.name == null) {
             pokestops.push(item);
-            let lastUpdate = new Date(item.last_seen*1000).toUTCString().slice(4,-4);
+            let lastUpdate = new Date(item.updated*1000).toUTCString().slice(4,-4);
             let radius = (6/8) + ((6/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let weight = (1/8) + ((1/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let marker = L.circleMarker([item.lat, item.lng], {
