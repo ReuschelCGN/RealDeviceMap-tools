@@ -3022,16 +3022,16 @@ function loadData() {
         if (settings.hideOldSpawnpoints == true){
           let oldSpawnpointsTimestamp = settings.oldSpawnpointsTimestamp;
           result.spawnpoints.forEach(function(item) {
-            if (item.despawn_sec != null && item.updated >= oldSpawnpointsTimestamp) {
+            if (item.despawn_sec != null && item.last_seen >= oldSpawnpointsTimestamp) {
               spawnpoints.push(item);
-            } else if (item.updated >= oldSpawnpointsTimestamp){
+            } else if (item.last_seen >= oldSpawnpointsTimestamp){
               spawnpoints_u.push(item);
               spawnpoints.push(item);
             }
             let radius = (6/8) + ((4/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             let weight = (1/8) + ((1/8) * (map.getZoom() - 11)) // Depends on Zoomlevel
             if (settings.showUnknownPois == false){
-              if (item.despawn_sec != null && item.updated >= oldSpawnpointsTimestamp) {
+              if (item.despawn_sec != null && item.last_seen >= oldSpawnpointsTimestamp) {
                 let marker = L.circleMarker([item.lat, item.lng], {
                   color: 'black',
                   fillColor: 'blue',
@@ -3044,7 +3044,7 @@ function loadData() {
                 marker.tags.id = item.id;
                 let despawn_time = new Date(parseInt(item.despawn_sec)*1000).toISOString().slice(-10, -5);
                 marker.bindPopup("<span>ID: " + item.id + "</span>\n" + subs.despawnTime + despawn_time).addTo(spawnpointLayer);
-              } else if (item.despawn_sec == null && item.updated >= oldSpawnpointsTimestamp) {
+              } else if (item.despawn_sec == null && item.last_seen >= oldSpawnpointsTimestamp) {
                 let marker = L.circleMarker([item.lat, item.lng], {
                   color: 'black',
                   fillColor: 'red',
@@ -3057,7 +3057,7 @@ function loadData() {
                 marker.tags.id = item.id;
                 marker.bindPopup("<span>ID: " + item.id + "</span>\n" + subs.unknownDespawnTime).addTo(spawnpointLayer);
               }
-            } else if (settings.showUnknownPois == true && item.despawn_sec == null && item.updated >= oldSpawnpointsTimestamp){
+            } else if (settings.showUnknownPois == true && item.despawn_sec == null && item.last_seen >= oldSpawnpointsTimestamp){
               let marker = L.circleMarker([item.lat, item.lng], {
                   color: 'black',
                   fillColor: 'red',
@@ -5289,7 +5289,7 @@ function getData($args) {
   }
 
   if ($args->show_spawnpoints === true) {
-    $sql_spawnpoint = "SELECT id, despawn_sec, lat, lon as lng, last_seen as updated FROM spawnpoint WHERE lat > ? AND lon > ? AND lat < ? AND lon < ?";
+    $sql_spawnpoint = "SELECT id, despawn_sec, lat, lon as lng, last_seen FROM spawnpoint WHERE lat > ? AND lon > ? AND lat < ? AND lon < ?";
     $stmt = $db->prepare($sql_spawnpoint);
     $stmt->execute([$args->min_lat, $args->min_lng, $args->max_lat, $args->max_lng]);
     $spawns = $stmt->fetchAll(PDO::FETCH_ASSOC);
